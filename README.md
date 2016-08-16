@@ -1,7 +1,7 @@
 # TUPU PHP SDK
 
 SDK for TUPU visual recognition service
-URL: https://www.tuputech.com
+https://www.tuputech.com
 
 ## Example
 
