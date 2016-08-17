@@ -15,14 +15,14 @@ class TupuClient
     const ErrWrongSignature = -4;
     const ErrEmptyPrivateKey = -5;
 
-    public function __construct($privateKey, $secretId)
+    public function __construct($privateKey, $secretId, $apiUrl = self::TupuApi)
     {
         $this->privateKey = $privateKey;
         $this->secretId = $secretId;
-        $this->apiUrl = self::TupuApi . $secretId;
+        $this->apiUrl = $apiUrl . $secretId;
     }
 
-    public function recognition($images)
+    public function recognition($images, $tags)
     {
         if (!is_array($images)) {
             return self::ErrWrongInput;
@@ -46,6 +46,9 @@ class TupuClient
             'nonce' => $nonce,
             'signature' => $signature
         );
+        if (is_string($tags) || (is_array($tags) && count($tags) > 0)) {
+            $data['tag'] = $tags;
+        }
 
         return $this->request($data);
     }
