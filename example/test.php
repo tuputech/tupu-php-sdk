@@ -1,8 +1,13 @@
 #!/usr/bin/php
 <?php
 
-require '../tupuclient.php';
+/**
+ * TUPU Recognition API SDK
+ * Copyright(c)2013-2016, TUPU Technology
+ * http://www.tuputech.com
+ */
 
+require '../tupuclient.php';
 
 //Using remote iamge URLs
 //$images = array('http://img.xxx.com/1.jpg', 'http://img.xxx.com/2.jpg');

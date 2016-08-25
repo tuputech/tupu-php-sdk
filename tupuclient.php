@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * TUPU Recognition API SDK (v1.1)
+ * Copyright(c)2013-2016, TUPU Technology
+ * http://www.tuputech.com
+ */
+
 class TupuClient
 {
     private $secretId;
@@ -77,7 +83,7 @@ class TupuClient
             $signature = $data['signature'];
             $json = $data['json'];
 
-            $pkey = openssl_get_publickey( $this->_getTupuPublicKey() );
+            $pkey = openssl_pkey_get_public( $this->_getTupuPublicKey() );
             $verifyRes = openssl_verify($json, base64_decode($signature), $pkey, "sha256WithRSAEncryption");
             if ($verifyRes == 1) {
                 //verfied

@@ -1,6 +1,6 @@
 # TUPU PHP SDK
 
-SDK for TUPU visual recognition service
+SDK for TUPU visual recognition service (v1.1)
 ######  
 <https://www.tuputech.com>
 
