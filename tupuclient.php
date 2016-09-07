@@ -8,9 +8,9 @@
 
 class TupuClient
 {
-    private $secretId;
     private $apiUrl;
     private $privateKey;
+    private $uid;
 
     const TupuApi = 'http://api.open.tuputech.com/v3/recognition/';
     //'http://api4.open.tuputech.com/v3/recognition/'
@@ -21,14 +21,18 @@ class TupuClient
     const ErrWrongSignature = -4;
     const ErrEmptyPrivateKey = -5;
 
-    public function __construct($privateKey, $secretId, $apiUrl = self::TupuApi)
+    public function __construct($privateKey, $apiUrl = self::TupuApi)
     {
         $this->privateKey = $privateKey;
-        $this->secretId = $secretId;
-        $this->apiUrl = $apiUrl . $secretId;
+        $this->apiUrl = $apiUrl;
     }
 
-    public function recognition($images, $tags)
+    public function setUID($uid)
+    {
+        $this->uid = $uid;
+    }
+
+    public function recognition($secretId, $images, $tags)
     {
         if (!is_array($images)) {
             return self::ErrWrongInput;
@@ -40,33 +44,37 @@ class TupuClient
         $this->images = $images;
         $timestamp = time();
         $nonce = rand(100, 999999);
-        $sign_string = $this->secretId . "," . $timestamp . "," . $nonce;
+        $sign_string = $secretId . "," . $timestamp . "," . $nonce;
 
         $pkey = openssl_pkey_get_private( $this->privateKey );
         openssl_sign($sign_string, $signature, $pkey, OPENSSL_ALGO_SHA256);
         $signature = base64_encode($signature);
 
         $data = array(
-            'image' => $images,
             'timestamp' => $timestamp,
             'nonce' => $nonce,
-            'signature' => $signature
+            'signature' => $signature,
+            'image' => $images
         );
+        if (is_string($this->uid)) {
+            $data['uid'] = $this->uid;
+        }
         if (is_string($tags) || (is_array($tags) && count($tags) > 0)) {
             $data['tag'] = $tags;
         }
 
-        return $this->request($data);
+        return $this->request($secretId, $data);
     }
 
-    private function request($data)
+    private function request($secretId, $data)
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->apiUrl);
+        curl_setopt($ch, CURLOPT_URL, $this->apiUrl . $secretId);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_TIMEOUT, 15);
         $this->setPostfields($ch, $data);
+
         $result = curl_exec($ch);
         $errno = curl_errno($ch);
         if ($errno) {
@@ -78,7 +86,7 @@ class TupuClient
         }
         curl_close($ch);
         
-        $data = json_decode($result, true);
+        $data = json_decode($result, true);echo 'fuck3 | ';
         if ($data) {
             $signature = $data['signature'];
             $json = $data['json'];

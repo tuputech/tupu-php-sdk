@@ -26,7 +26,9 @@ $privateKey = file_get_contents('./your_private_key.pem');
 //NOTE: Paste your Screct-ID here
 $secretId = 'your_secret_id';
 
-$tupu = new TupuClient($privateKey, $secretId);
+$tupu = new TupuClient($privateKey);
+//Set sub-user identifier for billing and statistics (optional feature)
+//$tupu->setUID('test-user');
 
-$result = $tupu->recognition($images, $tags);
+$result = $tupu->recognition($secretId, $images, $tags);
 var_dump($result);

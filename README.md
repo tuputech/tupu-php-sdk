@@ -29,13 +29,16 @@ $privateKey = file_get_contents('./your_private_key.pem');
 // Apply for account and secret ID: https://www.tuputech.com
 $secretId = 'your_secret_id';
 
-$tupu = new TupuClient($privateKey, $secretId);
+$tupu = new TupuClient($privateKey);
+//Set sub-user identifier for billing and statistics (optional feature)
+//$tupu->setUID('test-user');
 
-$result = $tupu->recognition($images, $tags);
+$result = $tupu->recognition($secretId, $images, $tags);
 var_dump($result);
 ```
 
 ### Method recognition
+- **$secretId**: secret-id for recognition tasks
 - **$images**: array of image URLs or Paths (path starts with '@')
 - **$tags**: tag of image (optional); string value as general tag for all images; if count of tags is less than count of images, the last tag will be used for the rest.
 
