@@ -42,6 +42,8 @@ var_dump($result);
 - **$images**: array of image URLs or Paths (path starts with '@')
 - **$tags**: tag of image (optional); string value as general tag for all images; if count of tags is less than count of images, the last tag will be used for the rest.
 
+**NOTE: please use only URLs or paths in ONE request**
+
 ## License
 
 [MIT](http://www.opensource.org/licenses/mit-license.php)
