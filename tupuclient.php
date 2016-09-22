@@ -86,7 +86,7 @@ class TupuClient
         }
         curl_close($ch);
         
-        $data = json_decode($result, true);echo 'fuck3 | ';
+        $data = json_decode($result, true);
         if ($data) {
             $signature = $data['signature'];
             $json = $data['json'];
