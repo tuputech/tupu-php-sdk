@@ -1,6 +1,6 @@
 # TUPU PHP SDK
 
-SDK for TUPU visual recognition service (v1.2)
+SDK for TUPU visual recognition service (v1.3)
 ######  
 <https://www.tuputech.com>
 
@@ -43,6 +43,11 @@ var_dump($result);
 - **$tags**: tag of image (optional); string value as general tag for all images; if count of tags is less than count of images, the last tag will be used for the rest.
 
 **NOTE: please use only URLs or paths in ONE request**
+
+#### Return Value
+- JSON: Result from server
+- Integer < 0: Check error code from definition ofclass TupuClient
+- Integer > 0: refer to <[Curl error codes](https://curl.haxx.se/libcurl/c/libcurl-errors.html)>
 
 ## License
 

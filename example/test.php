@@ -15,7 +15,7 @@ require '../tupuclient.php';
 $images = array('@img/1.jpg', '@img/2.jpg');
 
 //Post tags relative to images
-$tags = array('room1', 'room2');
+$tags = array('room1', 'roomX');
 //Post a general tag relative to images
 //$tags = 'room1';
 //$tags = array('room1');
@@ -26,9 +26,16 @@ $privateKey = file_get_contents('./your_private_key.pem');
 //NOTE: Paste your Screct-ID here
 $secretId = 'your_secret_id';
 
-$tupu = new TupuClient($privateKey);
+$tupu = TupuClient::initGlobalInstance($privateKey);
 //Set sub-user identifier for billing and statistics (optional feature)
 //$tupu->setUID('test-user');
 
 $result = $tupu->recognition($secretId, $images, $tags);
 var_dump($result);
+
+// Call again by globalInstance()
+// $result = TupuClient::globalInstance()->recognition($secretId, $images, $tags);
+// var_dump($result);
+
+// Create instance by youself
+// $tupu = new TupuClient($privateKey);

@@ -9,6 +9,7 @@
 class TupuClient
 {
     private $apiUrl;
+    private $publicKey;
     private $privateKey;
     private $uid;
 
@@ -21,9 +22,21 @@ class TupuClient
     const ErrWrongSignature = -4;
     const ErrEmptyPrivateKey = -5;
 
+    public static function initGlobalInstance($privateKey, $apiUrl = self::TupuApi)
+    {
+        $GLOBALS["GTupuClient"] = new TupuClient($privateKey);
+        return $GLOBALS["GTupuClient"];
+    }
+    public static function globalInstance()
+    {
+        return $GLOBALS["GTupuClient"];
+    }
+
+
     public function __construct($privateKey, $apiUrl = self::TupuApi)
     {
-        $this->privateKey = $privateKey;
+        $this->publicKey = openssl_pkey_get_public( $this->_getTupuPublicKey() );
+        $this->privateKey = openssl_pkey_get_private( $privateKey );
         $this->apiUrl = $apiUrl;
     }
 
@@ -46,8 +59,7 @@ class TupuClient
         $nonce = rand(100, 999999);
         $sign_string = $secretId . "," . $timestamp . "," . $nonce;
 
-        $pkey = openssl_pkey_get_private( $this->privateKey );
-        openssl_sign($sign_string, $signature, $pkey, OPENSSL_ALGO_SHA256);
+        openssl_sign($sign_string, $signature, $this->privateKey, OPENSSL_ALGO_SHA256);
         $signature = base64_encode($signature);
 
         $data = array(
@@ -91,8 +103,7 @@ class TupuClient
             $signature = $data['signature'];
             $json = $data['json'];
 
-            $pkey = openssl_pkey_get_public( $this->_getTupuPublicKey() );
-            $verifyRes = openssl_verify($json, base64_decode($signature), $pkey, "sha256WithRSAEncryption");
+            $verifyRes = openssl_verify($json, base64_decode($signature), $this->publicKey, "sha256WithRSAEncryption");
             if ($verifyRes == 1) {
                 //verfied
                 return json_decode($json, true);
