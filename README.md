@@ -4,6 +4,10 @@ SDK for TUPU visual recognition service (v1.3)
 ######  
 <https://www.tuputech.com>
 
+## Requirements
+- PHP 5.4.8+
+SHA256 support was added in 5.4.8
+
 ## Example
 
 ```
