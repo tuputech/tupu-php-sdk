@@ -2,7 +2,7 @@
 
 /**
  * TUPU Recognition API SDK (v1.1)
- * Copyright(c)2013-2016, TUPU Technology
+ * Copyright(c)2013-2017, TUPU Technology
  * http://www.tuputech.com
  */
 
@@ -15,6 +15,7 @@ class TupuClient
 
     const TupuApi = 'http://api.open.tuputech.com/v3/recognition/';
     //'http://api4.open.tuputech.com/v3/recognition/'
+    const TupuBiApi = 'http://recognition.bi.tuputech.com/v3/recognition/';
 
     const ErrUnsorted = -1;
     const ErrWrongInput = -2;
@@ -24,13 +25,20 @@ class TupuClient
 
     public static function initGlobalInstance($privateKey, $apiUrl = self::TupuApi)
     {
-        $GLOBALS["GTupuClient"] = new TupuClient($privateKey);
+        $GLOBALS["GTupuClient"] = new TupuClient($privateKey, $apiUrl);
         return $GLOBALS["GTupuClient"];
     }
     public static function globalInstance()
     {
         return $GLOBALS["GTupuClient"];
     }
+
+    public static function initBiGlobalInstance($privateKey)
+    {
+        $GLOBALS["GTupuClient"] = new TupuClient($privateKey, self::TupuBiApi);
+        return $GLOBALS["GTupuClient"];
+    }
+
 
 
     public function __construct($privateKey, $apiUrl = self::TupuApi)
@@ -46,6 +54,16 @@ class TupuClient
     }
 
     public function recognition($secretId, $images, $tags)
+    {
+        return $this->_recognition($secretId, $images, $tags);
+    }
+
+    public function biRecognition($secretId, $images, $tags, $CIDs)
+    {
+        return $this->_recognition($secretId, $images, $tags, $CIDs);
+    }
+
+    private function _recognition($secretId, $images, $tags, $CIDs = false)
     {
         if (!is_array($images)) {
             return self::ErrWrongInput;
@@ -74,6 +92,11 @@ class TupuClient
         if (is_string($tags) || (is_array($tags) && count($tags) > 0)) {
             $data['tag'] = $tags;
         }
+        if (is_string($CIDs) || (is_array($CIDs) && count($CIDs) > 0)) {
+            $data['CID'] = $CIDs;
+        }
+
+        //var_dump($data);
 
         return $this->request($secretId, $data);
     }
