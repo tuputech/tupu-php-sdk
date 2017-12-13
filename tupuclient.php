@@ -58,12 +58,12 @@ class TupuClient
         return $this->_recognition($secretId, $images, $tags);
     }
 
-    public function biRecognition($secretId, $images, $tags, $CIDs)
+    public function biRecognition($secretId, $images, $tags, $CIDs, $async = false)
     {
-        return $this->_recognition($secretId, $images, $tags, $CIDs);
+        return $this->_recognition($secretId, $images, $tags, $CIDs, $async);
     }
 
-    private function _recognition($secretId, $images, $tags, $CIDs = false)
+    private function _recognition($secretId, $images, $tags, $CIDs = false, $async = false)
     {
         if (!is_array($images)) {
             return self::ErrWrongInput;
@@ -94,6 +94,10 @@ class TupuClient
         }
         if (is_string($CIDs) || (is_array($CIDs) && count($CIDs) > 0)) {
             $data['CID'] = $CIDs;
+        }
+
+        if ($async === true) {
+            $data['resType'] = 'async';
         }
 
         //var_dump($data);

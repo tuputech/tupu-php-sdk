@@ -33,5 +33,7 @@ $secretId = 'your_secret_id';
 
 $tupu = TupuClient::initBiGlobalInstance($privateKey);
 
-$result = $tupu->biRecognition($secretId, $images, $tags, $CIDs);
+$async = true; //Using async callback to get result
+
+$result = $tupu->biRecognition($secretId, $images, $tags, $CIDs, $async);
 var_dump($result);
