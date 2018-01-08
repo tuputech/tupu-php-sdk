@@ -58,12 +58,12 @@ class TupuClient
         return $this->_recognition($secretId, $images, $tags);
     }
 
-    public function biRecognition($secretId, $images, $tags, $CIDs, $async = false)
+    public function biRecognition($secretId, $images, $tags, $CID, $async = false)
     {
-        return $this->_recognition($secretId, $images, $tags, $CIDs, $async);
+        return $this->_recognition($secretId, $images, $tags, $CID, $async);
     }
 
-    private function _recognition($secretId, $images, $tags, $CIDs = false, $async = false)
+    private function _recognition($secretId, $images, $tags, $CID = false, $async = false)
     {
         if (!is_array($images)) {
             return self::ErrWrongInput;
@@ -92,8 +92,8 @@ class TupuClient
         if (is_string($tags) || (is_array($tags) && count($tags) > 0)) {
             $data['tag'] = $tags;
         }
-        if (is_string($CIDs) || (is_array($CIDs) && count($CIDs) > 0)) {
-            $data['CID'] = $CIDs;
+        if (is_string($CID)) {
+            $data['CID'] = $CID;
         }
 
         if ($async === true) {
@@ -124,7 +124,7 @@ class TupuClient
             }
         }
         curl_close($ch);
-        
+
         $data = json_decode($result, true);
         if ($data) {
             $signature = $data['signature'];
