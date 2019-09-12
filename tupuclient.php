@@ -33,14 +33,6 @@ class TupuClient
         return $GLOBALS["GTupuClient"];
     }
 
-    public static function initBiGlobalInstance($privateKey)
-    {
-        $GLOBALS["GTupuClient"] = new TupuClient($privateKey, self::TupuBiApi);
-        return $GLOBALS["GTupuClient"];
-    }
-
-
-
     public function __construct($privateKey, $apiUrl = self::TupuApi)
     {
         $this->publicKey = openssl_pkey_get_public( $this->_getTupuPublicKey() );
@@ -56,11 +48,6 @@ class TupuClient
     public function recognition($secretId, $images, $tags)
     {
         return $this->_recognition($secretId, $images, $tags);
-    }
-
-    public function biRecognition($secretId, $images, $tags, $CID, $async = false)
-    {
-        return $this->_recognition($secretId, $images, $tags, $CID, $async);
     }
 
     private function _recognition($secretId, $images, $tags, $CID = false, $async = false)
