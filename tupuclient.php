@@ -125,7 +125,7 @@ class TupuClient
                 return self::ErrWrongSignature;
             }
         } else {
-            return self::UnrecognizedResult;
+            return self::ErrUnrecognizedResult;
         }
         return self::ErrUnsorted;
     }
