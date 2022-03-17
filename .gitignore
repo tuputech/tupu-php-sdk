@@ -5,3 +5,6 @@ example/keys/
 
 example/test2.php
 example/test-bi2.php
+/vendor/
+vendor/
+composer.lock

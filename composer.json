@@ -1,0 +1,22 @@
+{
+    "name": "tuputech/tupu-php-sdk",
+    "description": "TUPU API php SDK",
+    "type": "library",
+    "license": "MIT",
+    "version": "0.1",
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Tuputech\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Huang Chongzheng",
+            "email": "chongzhenghuang@tuputech.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.40"
+    }
+}
