@@ -1,19 +1,19 @@
 <?php
 
-namespace Tuputech\Recognition\Speech\Sync;
+namespace Tuputech\Recognition\Video\Sync;
 
 use Tuputech\Common\Core;
 use Tuputech\Common\DataInfo;
 use Tuputech\Exception\TupuSDKException;
 
-class SpeechSyncClient extends Core {
+class VideoSyncClient extends Core {
 
-    const APIURL = 'http://api.speech.tuputech.com/v3/recognition/speech/';
+	const APIURL = "http://api.open.tuputech.com/v3/recognition/video/syncscan/";
 
-    public static function initGlobalSpeechSyncClient($private_key_path)
+    public static function initGlobalVideoSyncClient($private_key_path)
     {
-        $GLOBALS['GTupuSpeechSyncClient'] = new SpeechSyncClient($private_key_path);
-        return $GLOBALS['GTupuSpeechSyncClient'];
+        $GLOBALS['GTupuVideoSyncClient'] = new VideoSyncClient($private_key_path);
+        return $GLOBALS['GTupuVideoSyncClient'];
     }
 
     public function __construct($private_key_path)

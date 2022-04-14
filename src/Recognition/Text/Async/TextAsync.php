@@ -1,18 +1,16 @@
 <?php
 
-namespace Tuputech\Recognition\Speech\Async;
+namespace Tuputech\Recognition\Text\Async;
 
 use Tuputech\Exception\TuputechSDKException;
 
-class SpeechAsync
+class TextAsync
 {
-    private $url;
+    private $content;
     private $callbackUrl;
-    private $callbackRule;
-    private $roomId;
+    private $contentId;
     private $userId;
     private $forumId;
-    private $customInfo;
 
     public function __get($name)
     {
@@ -36,12 +34,13 @@ class SpeechAsync
         $keys = get_object_vars($obj);
         // $keys = array_filter($keys, 'is_not_null');
         $effectiveArr = array();
+        // 去除空值
         foreach ($keys as $key => $value) {
             if (!is_null($key) && !is_null($value)) {
                 $effectiveArr[$key] = $value;
             }
         }
-        return json_encode(array( 'recording' => $effectiveArr));
+        return json_encode($effectiveArr);
    }
 
    public function apiEncode()
@@ -51,13 +50,12 @@ class SpeechAsync
 
    public function clear()
    {
-       $this->url = null;
+       $this->content = null;
        $this->callbackUrl = null;
        $this->callbackRule = null;
-       $this->roomId = null;
+       $this->contentId = null;
        $this->userId = null;
        $this->forumId = null;
-       $this->customInfo = null;
    }
 }
 

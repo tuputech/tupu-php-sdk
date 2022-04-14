@@ -1,10 +1,10 @@
 <?php
 
-namespace Tuputech\Recognition\Speech\Async;
+namespace Tuputech\Recognition\Video\Async;
 
 use Tuputech\Exception\TuputechSDKException;
 
-class SpeechAsync
+class VideoAsync
 {
     private $url;
     private $callbackUrl;

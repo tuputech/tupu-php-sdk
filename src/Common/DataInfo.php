@@ -22,7 +22,7 @@ class DataInfo
         $this->other_message = NULL;
     }
 
-    public function setBuf($buffer, $file_name)
+    public function setBuf($file_name, $buffer)
     {
         $this->buff = $buffer;
         $this->file_name = $file_name;

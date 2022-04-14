@@ -9,6 +9,7 @@ class Core
     const RootAPIURL = 'http://api.open.tuputech.com/v3/recognition/';
     const DefaultTimeout = 30;
     const DefaultUserAgent = 'tupu-php-client/1.0';
+    const JsonContentType = 'application/json';
 
     private $signer;
     private $verifier;
@@ -109,17 +110,20 @@ class Core
         $params = $this->_getAuthParams($secret_id);
         $params_json_str = json_encode($params);
 
+        // 合并两个 json , 去掉外层 {}
         $body = sprintf("{ %s, %s }", $data, substr($params_json_str, 1, strlen($params_json_str)-2));
-        return $this->_request($secret_id, $body, JsonConentType);
+        // application/json
+        return $this->_request($secret_id, $body, self::JsonContentType);
     }
 
     private function _request($secret_id, $data, $contentType)
     {
-        if (!is_string($secret_id) || !is_array($data) || !is_string($contentType))
+        if (!is_string($secret_id) || !is_string($data) || !is_string($contentType))
         {
-            throw new TupuSDKException("ParamError", `input params error, please check your params. $secret_id, $data, $contentType`);
+            throw new TupuSDKException("ParamError", "input params error, please check your params. [secret_id]: " . gettype($secret_id) . "; [data]: " . gettype($data) . "; [contentType]: " . gettype($contentType));
         }
 
+        print_r($data);
         $curl = curl_init();
         // setting curl opt params
         curl_setopt_array($curl, array(
@@ -128,7 +132,7 @@ class Core
             CURLOPT_POST => true,
             CURLOPT_TIMEOUT => $this->timeout,
             CURLOPT_HTTPHEADER => array(
-                'Content-Length: ' . strlen($contentType),
+                'Content-Length: ' . strlen($data),
                 'Expect: 100-continue',
                 'Content-Type: ' . $contentType,
                 'User-Agent:' . $this->user_agent,
@@ -159,7 +163,7 @@ class Core
             throw new TupuSDKException("ParamError", "input params error, please check your params.");
         }
 
-        $data = json_decode($result);
+        $data = json_decode($result, true);
         if ($data) {
             $signature = $data['signature'];
             $json = $data['json'];
@@ -187,6 +191,7 @@ class Core
         $_remote_url = $data_info->getRemoteUrl();
         $_file_type = $data_info->getFileType();
         $_local_path = $data_info->getLocalPath();
+        $_file_name = $data_info->getFileName();
         $_buf = $data_info->getBuf();
         $_optional_params = $data_info->getOtherMessage();
 
@@ -208,13 +213,18 @@ class Core
         {
             //  uploda binary data
             $body[] = '--' . $boundary;
-            $body[] = 'Content-Disposition: form-data; name="' . $_file_type . '"; filename="' . basename($_local_path) . '"';
+            $body[] = 'Content-Disposition: form-data; name="' . $_file_type . '"; filename="' . basename($_file_name) . '"';
             $body[] = 'Content-Type: application/octet-stream';
             $body[] = '';
             $body[] = $_buf;
         }
 
         // construct form data for reognition api other optional params
+        // 没有其他信息则不需要遍历了，否则 NULL 类型在 foreach 会报错
+        if (!is_array($_optional_params))
+        {
+            return $body;
+        }
         foreach ($_optional_params as $_key => $_value)
         {
             $body = array_merge($body, $this->_constructFormData($boundary, $_key, $_value));

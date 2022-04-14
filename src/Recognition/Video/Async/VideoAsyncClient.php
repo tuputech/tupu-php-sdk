@@ -1,10 +1,10 @@
 <?php
 
-namespace Tuputech\Recognition\Speech\Async;
+namespace Tuputech\Recognition\Video\Async;
 
 use Tuputech\Common\Core;
 
-class SpeechAsyncClient extends Core
+class VideoAsyncClient extends Core
 {
 
     private $speechAsync;
@@ -14,13 +14,13 @@ class SpeechAsyncClient extends Core
     {
         parent::__construct($private);
         $this->setAPIUrl(self::APIURL);
-        $this->speechAsync = new SpeechAsync();
+        $this->speechAsync = new VideoAsync();
     }
 
     public static function initGlobalSpeechAsyncClient($private)
     {
-        $GLOBALS['SpeechAsyncClient'] = new SpeechAsyncClient($private);
-        return $GLOBALS['SpeechAsyncClient'];
+        $GLOBALS['VideoAsyncClient'] = new VideoAsyncClient($private);
+        return $GLOBALS['VideoAsyncClient'];
     }
     
     public function performWithURL($secretId, $url, ...$optFuncs)

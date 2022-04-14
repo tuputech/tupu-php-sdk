@@ -8,3 +8,5 @@ example/test-bi2.php
 /vendor/
 vendor/
 composer.lock
+*.pem
+*/*.pem

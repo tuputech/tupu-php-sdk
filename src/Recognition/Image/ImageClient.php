@@ -1,19 +1,19 @@
 <?php
 
-namespace Tuputech\Recognition\Speech\Sync;
+namespace Tuputech\Recognition\Image;
 
 use Tuputech\Common\Core;
 use Tuputech\Common\DataInfo;
 use Tuputech\Exception\TupuSDKException;
 
-class SpeechSyncClient extends Core {
+class ImageClient extends Core {
 
-    const APIURL = 'http://api.speech.tuputech.com/v3/recognition/speech/';
+    const APIURL = 'http://api.open.tuputech.com/v3/recognition/';
 
-    public static function initGlobalSpeechSyncClient($private_key_path)
+    public static function initGlobalImageClient($private_key_path)
     {
-        $GLOBALS['GTupuSpeechSyncClient'] = new SpeechSyncClient($private_key_path);
-        return $GLOBALS['GTupuSpeechSyncClient'];
+        $GLOBALS['GTupuImageClient'] = new ImageClient($private_key_path);
+        return $GLOBALS['GTupuImageClient'];
     }
 
     public function __construct($private_key_path)
@@ -43,7 +43,7 @@ class SpeechSyncClient extends Core {
         {
             $dtif = new DataInfo();
             $dtif->setBuf($key, $value);
-            $dtif->setFileType("speech");
+            $dtif->setFileType("image");
             $data_info_arr[] = $dtif;
         }
 
@@ -70,7 +70,7 @@ class SpeechSyncClient extends Core {
         {
             $dtif = new DataInfo();
             $dtif->setLocalPath($path);
-            $dtif->setFileType("speech");
+            $dtif->setFileType("image");
             $data_info_arr[] = $dtif;
         }
 
@@ -97,7 +97,7 @@ class SpeechSyncClient extends Core {
         {
             $dtif = new DataInfo();
             $dtif->setRemoteUrl($url);
-            $dtif->setFileType("speech");
+            $dtif->setFileType("image");
             $data_info_arr[] = $dtif;
         }
 

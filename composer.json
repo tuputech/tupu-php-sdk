@@ -5,9 +5,10 @@
     "license": "MIT",
     "version": "0.1",
     "minimum-stability": "dev",
+    "homepage": "https://github.com/Tuputech/tupu-php-sdk",
     "autoload": {
         "psr-4": {
-            "Tuputech\\": "src/"
+            "Tuputech\\": "./src/"
         }
     },
     "authors": [
